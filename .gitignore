@@ -1,0 +1,6 @@
+u-boot/
+linux-*/
+linux/
+kernel-*/
+*.snap
+squashfs-root/

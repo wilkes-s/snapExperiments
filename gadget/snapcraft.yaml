@@ -1,0 +1,32 @@
+name: a-sample
+version: 16-0.1
+summary: gadget for a-sample
+description: |
+ Bootloader files and partitoning data to create a
+ bootable Ubuntu Core image.
+base: core20
+type: gadget
+architectures:
+  - armhf
+confinement: strict
+grade: stable
+
+parts:
+  uboot:
+    plugin: make
+    source: u-boot/stage
+    source-type: local
+    override-build: |
+      cp u-boot.bin $SNAPCRAFT_PART_INSTALL/
+      tools/mkenvimage -r -s 131072 -o $SNAPCRAFT_PART_INSTALL/uboot.env ./uboot.env.in
+      cd $SNAPCRAFT_PART_INSTALL/; ln -s uboot.env uboot.conf
+    build-packages:
+      - git
+      - bison
+      - flex
+      - libssl-dev 
+      - libpython2.7-dev
+      - build-essential
+      - bc
+      - gcc-arm-linux-gnueabi
+      - tree

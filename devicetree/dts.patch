@@ -1,0 +1,20 @@
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index e41eca79c..a7afb1642 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -446,6 +446,7 @@ dtb-$(CONFIG_SOC_IMX53) += \
+ 	imx53-usbarmory.dtb \
+ 	imx53-voipac-bsb.dtb
+ dtb-$(CONFIG_SOC_IMX6Q) += \
++	imx6q-qemu-arm.dtb \
+ 	imx6dl-alti6p.dtb \
+ 	imx6dl-apf6dev.dtb \
+ 	imx6dl-aristainetos_4.dtb \
+@@ -675,6 +676,7 @@ dtb-$(CONFIG_SOC_IMX6SX) += \
+ 	imx6sx-udoo-neo-extended.dtb \
+ 	imx6sx-udoo-neo-full.dtb
+ dtb-$(CONFIG_SOC_IMX6UL) += \
++	smarc_lcd.dtb \
+ 	imx6ul-14x14-evk.dtb \
+ 	imx6ul-ccimx6ulsbcexpress.dtb \
+ 	imx6ul-ccimx6ulsbcpro.dtb \

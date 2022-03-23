@@ -1,0 +1,24 @@
+device-tree: imx6q-qemu-arm
+device-tree-origin: kernel
+volumes:
+  aSample:
+    bootloader: u-boot
+    schema: mbr
+    structure:
+      - name: u-boot
+        type: bare
+        size: 786432
+        offset: 1024
+        content:
+          - image: u-boot.bin
+      - name: system-boot
+        type: 0C
+        filesystem: vfat
+        filesystem-label: system-boot
+        size: 128M
+
+# defaults:
+#   99T7MUlRhtI3U0QFgl5mXXESAiSwt776:
+#     service:
+#       rsyslog:
+#         disable: true
