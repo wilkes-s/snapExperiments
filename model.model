@@ -1,0 +1,38 @@
+type: model
+authority-id: vgl665t7j686tEGIaH9waabNOO608CAX
+series: 16
+brand-id: vgl665t7j686tEGIaH9waabNOO608CAX
+model: ubuntu-core-18-imx6
+architecture: arm64
+base: core20
+grade: dangerous
+snaps:
+  -
+    default-channel: 20/stable
+    name: pi
+    type: gadget
+  -
+    default-channel: 20/stable
+    name: pi-kernel
+    type: kernel
+  -
+    default-channel: latest/stable
+    name: core20
+    type: base
+  -
+    default-channel: latest/stable
+    name: snapd
+    type: snapd
+timestamp: 2022-03-23T11:23:04+00:00
+sign-key-sha3-384: nuDFso-h9rUSgz4I8HwFOTnjA5947RpisVCB5V-YPeM23Qd_pVwRRAW4-BrIJxe_
+
+AcLBcwQAAQoAHRYhBNcoGNpbm3TuVf5pS3FUMoJ9cAsPBQJiOvpcAAoJEHFUMoJ9cAsPJZ8P/2f5
+o5jIJip6PYflNFdomR/j1ka30vbKMm27lpHaKdgn73o+Y0DzGAE15azAP2LWalIckXuzVCW/+5Wk
+Vm0FlONJy5oYGoxaQbZfuLofs4aICNvbeQBZXmNr7prmtLlEqW7uPd/M6Mc47YeAJgABHtcPbKeE
+fj83M6fC4R/ilPWuxW/Cx3l3XFsVyi9aFEVKKCYV8Tqhg09sC78s/6dUmNRHCzrhRO4NX72Ee/66
+xVIkRJDtJhcv8+uxFwPgRD++jwvYNfLeULqPm4qEmSfqHxSRHjv0/gmz1aShXC/sWuqVrEEZz4PJ
+Zf5vpEkL2UfM/38i6rXOIrv1p4Y4tPROhXODCMEkofjl+qIJyJnhu816jeXGVrjuoy+BWSESpbnb
++CHwKjEvbZHeYNdykr9D1SrTmrntt6hhlrkokQ3rfgpub11/w+kiMwvU6ig+suWZlwWfQJw2DxpX
+SOWRnbMyqsdq+TMhchnBhVtGRDrZVVUKC1MG6Fr977aCTHTmSCUEViJP8R6DrC27V7vvIfJSO4xC
+bECo6F2Pj/c5pThaL5g5FqijFbenijVk7wQmoaZgIFe/KRA/cjgRlRurkBtuc1UAppf5asXIuuCI
+OHaED5uTaYo5Be5H4+zGN0B9IbohLPQe+BVjusGevtg6QoM/gElxvDrcn5XA7O+4vSIsj416

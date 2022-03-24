@@ -4,3 +4,5 @@ linux/
 kernel-*/
 *.snap
 squashfs-root/
+*.img
+seed.manifest

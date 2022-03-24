@@ -63,8 +63,14 @@ gadget: u-boot
 # 	mv *.snap $(PWD)/a-sample-kernel.snap
 
 image:
-	cat model.json | snap sign my-models > model.model
+	cat model.json | snap sign -k snapkey > model.model
+	ubuntu-image snap model.model
 
+QEMU:
+	qemu-system-arm \
+	-machine virt \
+	-bios gadget/u-boot/u-boot.bin \
+	-drive if=none,format=raw,file=pi.img,id=mydisk -device ich9-ahci,id=ahci -device ide-hd,drive=mydisk,bus=ahci.0
 
 clean: clean-kernel clean-u-boot
 	
