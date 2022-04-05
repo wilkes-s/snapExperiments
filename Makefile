@@ -3,7 +3,7 @@ KERNEL_VERSION := linux-5.17
 KERNEL_PATH :=$(PWD)/kernel/kernel-5.17
 UBOOT_PATH :=$(PWD)/gadget/u-boot
 
-all: u-boot kernel
+all: install image
 rebuild: clean all
 
 clean-u-boot:
@@ -22,11 +22,19 @@ u-boot: u-boot-download
 	make qemu_arm_defconfig && \
     make -j8
 
-	rm -rf $(UBOOT_PATH)/stage
-	mkdir $(UBOOT_PATH)/stage
-	cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
+	rm -rf $(UBOOT_PATH)/boot-assets
+	mkdir $(UBOOT_PATH)/boot-assets
+	cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/boot-assets/
+	cp $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/boot-assets/
+	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/boot-assets/
+
+gadget: u-boot
+	cd gadget && snapcraft && \
+	mv *.snap $(PWD)/a-sample-gadget.snap
+
+	rm -r squashfs-root
+	unsquashfs a-sample-gadget.snap
+	tree squashfs-root
 
 clean-kernel:
 	rm -r -f $(KERNEL_PATH)
@@ -54,25 +62,30 @@ kernel: kernel-download
 	cp $(KERNEL_PATH)/arch/arm/boot/zImage $(KERNEL_PATH)/stage/
 
 
-gadget: u-boot
-	cd gadget && snapcraft --debug && \
-	mv *.snap $(PWD)/a-sample-gadget.snap
-
 # kernel-snap: linux-download
 # 	cd kernel && snapcraft --debug && \
 # 	mv *.snap $(PWD)/a-sample-kernel.snap
 
 image:
-	cat model.json | snap sign -k snapkey > model.model
-	ubuntu-image snap model.model
+	cat model.json | snap sign -k snapkey2 > model.model
+	ubuntu-image snap model.model --snap ./a-sample-gadget.snap
+
+flash:
+	umount
 
 QEMU:
 	qemu-system-arm \
-	-machine virt \
-	-bios gadget/u-boot/u-boot.bin \
-	-drive if=none,format=raw,file=pi.img,id=mydisk -device ich9-ahci,id=ahci -device ide-hd,drive=mydisk,bus=ahci.0
+	-machine raspi2 \
+	-device sdhci-pci -device sd-card,drive=mydrive -drive id=mydrive,if=none,format=raw,file=pi.img
+	# -drive if=none,format=raw,file=pi.img,id=mydisk -device ich9-ahci,id=ahci -device ide-hd,drive=mydisk,bus=ahci.0
+	# -bios gadget/u-boot/u-boot.bin \
+
+install:
+	sudo apt install git qemu-system-arm gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi build-essential bison flex libssl-dev tree bc -y
 
 clean: clean-kernel clean-u-boot
+	rm *.img
+	rm *.snap
 	
 .PHONY: gadget kernel
 	

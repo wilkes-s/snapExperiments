@@ -5,14 +5,13 @@
     "brand-id": "vgl665t7j686tEGIaH9waabNOO608CAX",
     "model": "ubuntu-core-18-imx6",
     "architecture": "arm64",
-    "timestamp": "2022-03-23T11:23:04+00:00",
+    "timestamp": "2022-03-24T10:09:04+00:00",
     "base": "core20",
     "grade": "dangerous",
     "snaps": [
         {
-            "name": "pi",
-            "type": "gadget",
-            "default-channel": "20/stable"
+            "name": "a-sample",
+            "type": "gadget"
         },
         {
             "name": "pi-kernel",
