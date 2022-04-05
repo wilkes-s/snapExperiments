@@ -5,10 +5,10 @@ ARG VARIANT="hirsute"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 
-RUN apt update && export DEBIAN_FRONTEND=noninteractive && apt upgrade -y
+RUN apt update && export DEBIAN_FRONTEND=noninteractive && apt -y upgrade 
 
 RUN apt -y install build-essential gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi 
 
-RUN apt -y install make bison flex libssl-dev tree bc
+RUN apt -y install make bison flex libssl-dev tree bc 
 
 RUN apt -y install qemu-system-arm 
