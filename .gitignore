@@ -6,3 +6,7 @@ kernel-*/
 squashfs-root/
 *.img
 seed.manifest
+
+# buildroot-2020.02.8/
+buildroot*
+firmware-master/

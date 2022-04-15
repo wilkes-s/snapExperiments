@@ -5,20 +5,42 @@ volumes:
     bootloader: u-boot
     schema: mbr
     structure:
-      - name: u-boot
-        type: bare
-        size: 786432
-        offset: 1024
-        content:
-          - image: u-boot.bin
-      - name: system-boot
-        type: 0C
+      - name: ubuntu-seed
+        role: system-seed
         filesystem: vfat
-        filesystem-label: system-boot
-        size: 128M
-
-# defaults:
-#   99T7MUlRhtI3U0QFgl5mXXESAiSwt776:
-#     service:
-#       rsyslog:
-#         disable: true
+        type: 0C
+        size: 1200M
+        content:
+          - source: $kernel:dtbs/dtbs/broadcom/
+            target: /
+          - source: $kernel:dtbs/dtbs/overlays/
+            target: /overlays
+          # - source: boot-assets/
+          #   target: /
+      - name: ubuntu-boot
+        role: system-boot
+        filesystem: vfat
+        type: 0C
+        # whats the appropriate size?
+        size: 750M
+        content:
+          # TODO:UC20: install the boot.sel via snapd instead of via the gadget
+          - source: boot.sel
+            target: uboot/ubuntu/boot.sel
+      # NOTE: ubuntu-save is optional for unencrypted devices like the pi, so
+      # this structure can be dropped in favor of a different partition for
+      # users who wish to instead use a different partition, since with MBR we
+      # are limited to only 4 primary partitions.
+      # TODO: look into switching over to GPT, the pi bootloader firmware now
+      #       has support for this
+      - name: ubuntu-save
+        role: system-save
+        filesystem: ext4
+        type: 83,0FC63DAF-8483-4772-8E79-3D69D8477DE4
+        size: 16M
+      - name: ubuntu-data
+        role: system-data
+        filesystem: ext4
+        type: 83,0FC63DAF-8483-4772-8E79-3D69D8477DE4
+        # XXX: make auto-grow to partition
+        size: 1500M

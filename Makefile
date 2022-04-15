@@ -2,8 +2,13 @@
 KERNEL_VERSION := linux-5.17
 KERNEL_PATH :=$(PWD)/kernel/kernel-5.17
 UBOOT_PATH :=$(PWD)/gadget/u-boot
+DEFCONFIG := rpi_3_b_plus_defconfig
+COMPILER := aarch64-linux-gnu-
+ARCH := arm64
+SDPATH := /media/wss1tra/4CFC-C3D7
 
-all: u-boot kernel
+
+all: install image
 rebuild: clean all
 
 clean-u-boot:
@@ -16,17 +21,22 @@ u-boot-download:
 	fi
 		
 u-boot: u-boot-download
-	cd $(UBOOT_PATH) && \
-	CROSS_COMPILE=arm-linux-gnueabihf- && \
-	export CROSS_COMPILE && \
-	make qemu_arm_defconfig && \
-    make -j8
+	cd $(UBOOT_PATH) && make ARCH=arm CROSS_COMPILE=$(COMPILER) $(DEFCONFIG)
+	cd $(UBOOT_PATH) && make ARCH=arm CROSS_COMPILE=$(COMPILER) -j8
 
-	rm -rf $(UBOOT_PATH)/stage
-	mkdir $(UBOOT_PATH)/stage
-	cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
+	# rm -rf $(UBOOT_PATH)/boot-assets
+	# mkdir $(UBOOT_PATH)/boot-assets
+	# cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/boot-assets/
+	# cp $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/boot-assets/
+	# cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/boot-assets/
+
+gadget: u-boot
+	cd gadget && snapcraft && \
+	mv *.snap $(PWD)/a-sample-gadget.snap
+
+	rm -r squashfs-root
+	unsquashfs a-sample-gadget.snap
+	tree squashfs-root
 
 clean-kernel:
 	rm -r -f $(KERNEL_PATH)
@@ -43,36 +53,65 @@ kernel-download:
 		# cp $(PWD)/devicetree/$(DTS).patch $(KERNEL_PATH)/ && \
 
 kernel: kernel-download	
-	cp $(KERNEL_PATH)/arch/arm/configs/imx_v6_v7_defconfig $(KERNEL_PATH)/.config
-	cd $(KERNEL_PATH) ;	make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- olddefconfig
-	cd $(KERNEL_PATH) ;	make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- -j8
+# cp $(KERNEL_PATH)/arch/arm/configs/imx_v6_v7_defconfig $(KERNEL_PATH)/.config
+# cd $(KERNEL_PATH) ;	make ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) olddefconfig
+	
+	cd $(KERNEL_PATH) ;	make ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) defconfig
+	cd $(KERNEL_PATH) ;	make ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) -j8
 
-	rm -rf $(KERNEL_PATH)/stage
-	mkdir $(KERNEL_PATH)/stage
-	mkdir $(KERNEL_PATH)/stage/dtb
-	cp $(KERNEL_PATH)/arch/arm/boot/dts/imx6q-qemu-arm.dtb $(KERNEL_PATH)/arch/arm/boot/dts/smarc_lcd.dtb $(KERNEL_PATH)/stage/dtb/
-	cp $(KERNEL_PATH)/arch/arm/boot/zImage $(KERNEL_PATH)/stage/
+	# rm -rf $(KERNEL_PATH)/stage
+	# mkdir $(KERNEL_PATH)/stage
+	# mkdir $(KERNEL_PATH)/stage/dtb
+	# cp $(KERNEL_PATH)/arch/arm/boot/dts/imx6q-qemu-arm.dtb $(KERNEL_PATH)/arch/arm/boot/dts/smarc_lcd.dtb $(KERNEL_PATH)/stage/dtb/
+	# cp $(KERNEL_PATH)/arch/arm/boot/zImage $(KERNEL_PATH)/stage/
 
-
-gadget: u-boot
-	cd gadget && snapcraft --debug && \
-	mv *.snap $(PWD)/a-sample-gadget.snap
 
 # kernel-snap: linux-download
 # 	cd kernel && snapcraft --debug && \
 # 	mv *.snap $(PWD)/a-sample-kernel.snap
 
-image:
-	cat model.json | snap sign -k snapkey > model.model
-	ubuntu-image snap model.model
+firmware: 
+	if [ ! -f firmware-master/README.md ] ; then \
+		wget https://github.com/raspberrypi/firmware/archive/master.zip && \
+		unzip master.zip ; \
+	fi
 
-QEMU:
-	qemu-system-arm \
-	-machine virt \
-	-bios gadget/u-boot/u-boot.bin \
-	-drive if=none,format=raw,file=pi.img,id=mydisk -device ich9-ahci,id=ahci -device ide-hd,drive=mydisk,bus=ahci.0
+format:
+	sudo sfdisk /dev/sdb < rpilayout # where sda is your SD card
+	sudo mkfs.vfat /dev/sdb1
+
+image:
+	cp $(UBOOT_PATH)/u-boot.bin  $(SDPATH)/kernel8.img
+	cp $(KERNEL_PATH)/arch/arm64/boot/Image $(SDPATH)/
+	cp $(KERNEL_PATH)/arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dtb $(SDPATH)/
+	cp config.txt $(SDPATH)/
+	cp firmware-master/boot/{fixup.dat,start.elf,bootcode.bin} $(SDPATH)/
+	sudo dd if=buildroot-2020.02.8/output/images/rootfs.ext4 of=/dev/sdb2
+
+
+
+
+install:
+	sudo apt install git qemu-system-arm gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi build-essential bison flex libssl-dev tree bc -y
+	export PATH=~/tools/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin:$PATH
 
 clean: clean-kernel clean-u-boot
+	rm *.img
+	rm *.snap
+
+
+buildroot:
+	if [ ! -f buildroot-2020.02.8/Makefile ] ; then \
+		wget https://buildroot.org/downloads/buildroot-2020.02.8.tar.gz && \
+		tar -xf buildroot-2020.02.8.tar.gz ; \
+	fi
+
+	cd buildroot-2020.02.8 && make raspberrypi4_64_defconfig && make
+
+RASPBERRY: u-boot kernel buildroot firmware image
+	
+
+
 	
 .PHONY: gadget kernel
 	

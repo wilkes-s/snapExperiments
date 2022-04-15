@@ -8,8 +8,7 @@ base: core20
 grade: dangerous
 snaps:
   -
-    default-channel: 20/stable
-    name: pi
+    name: a-sample
     type: gadget
   -
     default-channel: 20/stable
@@ -23,16 +22,16 @@ snaps:
     default-channel: latest/stable
     name: snapd
     type: snapd
-timestamp: 2022-03-23T11:23:04+00:00
-sign-key-sha3-384: nuDFso-h9rUSgz4I8HwFOTnjA5947RpisVCB5V-YPeM23Qd_pVwRRAW4-BrIJxe_
+timestamp: 2022-03-24T10:09:04+00:00
+sign-key-sha3-384: F32VhrQYzdrkKbXspaNY1T3vL_5o5y9r1q7iLFjvOrFeqFjfVvhGvfnKAU-2BTNg
 
-AcLBcwQAAQoAHRYhBNcoGNpbm3TuVf5pS3FUMoJ9cAsPBQJiOvpcAAoJEHFUMoJ9cAsPJZ8P/2f5
-o5jIJip6PYflNFdomR/j1ka30vbKMm27lpHaKdgn73o+Y0DzGAE15azAP2LWalIckXuzVCW/+5Wk
-Vm0FlONJy5oYGoxaQbZfuLofs4aICNvbeQBZXmNr7prmtLlEqW7uPd/M6Mc47YeAJgABHtcPbKeE
-fj83M6fC4R/ilPWuxW/Cx3l3XFsVyi9aFEVKKCYV8Tqhg09sC78s/6dUmNRHCzrhRO4NX72Ee/66
-xVIkRJDtJhcv8+uxFwPgRD++jwvYNfLeULqPm4qEmSfqHxSRHjv0/gmz1aShXC/sWuqVrEEZz4PJ
-Zf5vpEkL2UfM/38i6rXOIrv1p4Y4tPROhXODCMEkofjl+qIJyJnhu816jeXGVrjuoy+BWSESpbnb
-+CHwKjEvbZHeYNdykr9D1SrTmrntt6hhlrkokQ3rfgpub11/w+kiMwvU6ig+suWZlwWfQJw2DxpX
-SOWRnbMyqsdq+TMhchnBhVtGRDrZVVUKC1MG6Fr977aCTHTmSCUEViJP8R6DrC27V7vvIfJSO4xC
-bECo6F2Pj/c5pThaL5g5FqijFbenijVk7wQmoaZgIFe/KRA/cjgRlRurkBtuc1UAppf5asXIuuCI
-OHaED5uTaYo5Be5H4+zGN0B9IbohLPQe+BVjusGevtg6QoM/gElxvDrcn5XA7O+4vSIsj416
+AcLBcwQAAQoAHRYhBGUO0OiFFI0GnhAd8ksWAFxtVfx1BQJiPEX7AAoJEEsWAFxtVfx1jW8P/058
+lRhhHR5D5BggM9oXLcylnx4Lb1at2j/mEbSyZdfpxt62u+mLo3yJOjK6GC1TFHD+QExLO4NY7t/Y
+7SMQ0Vf/UWlyp/utasOTO+y/g/cZedZKbmlyXgAcj8F0OeiEyqHLjq+YYPadBZ0YibzdGy7ThrYC
+i/TDqHtR2D4ZTdDbIKJfvSsbvyRuOYzgYp22gs1OZpq75OEIUm1LccyqGHOAv5Q2fdWWzKSXlQjJ
+f3gxWwNFFlkGLPt7fl1oDIxl1m05ZGGkagIEBk6tk0AcRN9WSaUvQWXq8r0MeEZnOHE4bICiJCg+
+vXe9gHZhug/IGWrW/gPo1s/8SguhZDibpQWBiWG967hHhzRIV874ivVPGAEqc3v2wdvuad+zyo4P
+Tj6pqdw9P4fe6lHdRuQDCcyP5bbtA7XqAVT4kQdj4M5pCl5MVjJt04JFVaLdF+w10f6ZKpCGpn15
+SmQFAVLUx18lGQLtuxS3QqZuwd6R+YRKfxs/56DrELOyJVQD8Hvao5oYUg4PvYCE/LuUDu9R3q+e
+W5vF/FyT7NYY1SaEnVwwFYP4giSlfAhlhO/c35HG7UUSFQ3wp1+IpBeDNAHh9z0yprSqnW4zrmYs
+M2gvE02oS+MF7S7ZjcwGzyKDUlYlTO8NaQW/kLnOOJGbEiuAjVjxo5duM55Mb5I01CCw9i2+

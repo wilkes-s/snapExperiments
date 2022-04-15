@@ -7,19 +7,20 @@ description: |
 base: core20
 type: gadget
 architectures:
-  - armhf
+  - arm64
 confinement: strict
 grade: stable
 
 parts:
   uboot:
     plugin: make
-    source: u-boot/stage
+    source: u-boot/boot-assets
     source-type: local
     override-build: |
       cp u-boot.bin $SNAPCRAFT_PART_INSTALL/
-      tools/mkenvimage -r -s 131072 -o $SNAPCRAFT_PART_INSTALL/uboot.env ./uboot.env.in
-      cd $SNAPCRAFT_PART_INSTALL/; ln -s uboot.env uboot.conf
+      tools/mkenvimage -r -s 131072 -o $SNAPCRAFT_PART_INSTALL/boot.sel ./uboot.env.in
+      touch $SNAPCRAFT_PART_INSTALL/uboot.conf
+
     build-packages:
       - git
       - bison
