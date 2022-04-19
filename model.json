@@ -4,8 +4,8 @@
     "authority-id": "vgl665t7j686tEGIaH9waabNOO608CAX",
     "brand-id": "vgl665t7j686tEGIaH9waabNOO608CAX",
     "model": "ubuntu-core-18-imx6",
-    "architecture": "arm64",
-    "timestamp": "2022-03-24T10:09:04+00:00",
+    "architecture": "armhf",
+    "timestamp": "2022-04-19T15:50:04+00:00",
     "base": "core20",
     "grade": "dangerous",
     "snaps": [
@@ -14,19 +14,20 @@
             "type": "gadget"
         },
         {
-            "name": "pi-kernel",
-            "type": "kernel",
-            "default-channel": "20/stable"
+            "name": "a-kernel",
+            "type": "kernel"
         },
         {
             "name": "core20",
             "type": "base",
-            "default-channel": "latest/stable"
+            "default-channel": "latest/stable",
+            "id": "DLqre5XGLbDqg9jPtiAhRRjDuPVa5X1q"
         },
-         {
+        {
             "name": "snapd",
             "type": "snapd",
-            "default-channel": "latest/stable"
+            "default-channel": "latest/stable",
+            "id": "PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4"
         }
     ]
 }

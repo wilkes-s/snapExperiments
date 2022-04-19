@@ -3,7 +3,7 @@ authority-id: vgl665t7j686tEGIaH9waabNOO608CAX
 series: 16
 brand-id: vgl665t7j686tEGIaH9waabNOO608CAX
 model: ubuntu-core-18-imx6
-architecture: arm64
+architecture: armhf
 base: core20
 grade: dangerous
 snaps:
@@ -11,27 +11,28 @@ snaps:
     name: a-sample
     type: gadget
   -
-    default-channel: 20/stable
-    name: pi-kernel
+    name: a-kernel
     type: kernel
   -
     default-channel: latest/stable
+    id: DLqre5XGLbDqg9jPtiAhRRjDuPVa5X1q
     name: core20
     type: base
   -
     default-channel: latest/stable
+    id: PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4
     name: snapd
     type: snapd
-timestamp: 2022-03-24T10:09:04+00:00
-sign-key-sha3-384: F32VhrQYzdrkKbXspaNY1T3vL_5o5y9r1q7iLFjvOrFeqFjfVvhGvfnKAU-2BTNg
+timestamp: 2022-04-19T15:50:04+00:00
+sign-key-sha3-384: Tj7uQW4IIzs0dZEIeShCCcrWcQ83FqEMtQBPI5IcX-6tSFICwZjkagHrIBoi1KOP
 
-AcLBcwQAAQoAHRYhBGUO0OiFFI0GnhAd8ksWAFxtVfx1BQJiPEX7AAoJEEsWAFxtVfx1jW8P/058
-lRhhHR5D5BggM9oXLcylnx4Lb1at2j/mEbSyZdfpxt62u+mLo3yJOjK6GC1TFHD+QExLO4NY7t/Y
-7SMQ0Vf/UWlyp/utasOTO+y/g/cZedZKbmlyXgAcj8F0OeiEyqHLjq+YYPadBZ0YibzdGy7ThrYC
-i/TDqHtR2D4ZTdDbIKJfvSsbvyRuOYzgYp22gs1OZpq75OEIUm1LccyqGHOAv5Q2fdWWzKSXlQjJ
-f3gxWwNFFlkGLPt7fl1oDIxl1m05ZGGkagIEBk6tk0AcRN9WSaUvQWXq8r0MeEZnOHE4bICiJCg+
-vXe9gHZhug/IGWrW/gPo1s/8SguhZDibpQWBiWG967hHhzRIV874ivVPGAEqc3v2wdvuad+zyo4P
-Tj6pqdw9P4fe6lHdRuQDCcyP5bbtA7XqAVT4kQdj4M5pCl5MVjJt04JFVaLdF+w10f6ZKpCGpn15
-SmQFAVLUx18lGQLtuxS3QqZuwd6R+YRKfxs/56DrELOyJVQD8Hvao5oYUg4PvYCE/LuUDu9R3q+e
-W5vF/FyT7NYY1SaEnVwwFYP4giSlfAhlhO/c35HG7UUSFQ3wp1+IpBeDNAHh9z0yprSqnW4zrmYs
-M2gvE02oS+MF7S7ZjcwGzyKDUlYlTO8NaQW/kLnOOJGbEiuAjVjxo5duM55Mb5I01CCw9i2+
+AcLBcwQAAQoAHRYhBJrIgjmUUXAeZDs+Y2+eDiauCcvnBQJiXwTCAAoJEG+eDiauCcvnODsP/3m8
+p0FcdYIFGjm7YRR1kS6Z+AP6IOrZzyrl94wLPrjSwny2E9X7lnmaxNnqt3BKNe9tsOlE32C5R+x2
+aDOhcdpYvs57Di8e/K+G/7KWFPhm5gXAwsY3Q/TbFHln7/KVsljtrdffyKxZdCvzd2jizDLhyQ3c
+a4ZIfx14D1s+K5ysXO5EYTa0kEQXdl7tF70Om1057HMMVFodjb6Efw+zRU5lOlUqlp3c/NTrzzN+
+CHJFrouNvNQJSJN/slkvCIuemnlGO0FGp+traTvrOGer4KrIkpSzVQtxKpZOdmMs6Eq11KIrJli3
+yQLhAHrG/5Ys/UnpRB1kpbTAo3lUMWQCQM/sVG5bDA51mIvnJiC5+UW4cnbGnC/abGV2xvIn4GIc
+hqZsr1y+Thp16pnL9b+hnVZzJFOfN6TVTtbxzQhn7Y6Dx7gT8W/VezUsrRwEb0KELSQmw0W8XZWv
+8rS4tJb8N1ImQ/HyJk55ejvX9GcbrsvFnhPvfsSxC4s7pdtGypuw20Q7AiswT8FPfD40k8jSGFC+
+NY6vfEKV7CFsfQMb+e81GLF4/2DtV/BWam4Nh0NNAUROWE0NEa/pgx2OC4c0/l7E5p9ULI1KHHOE
+QbqRvoQoygKgSHE5sreeIb7ErvgW751dJ8L4e9BkS51mNf3iPKbJ8blgU4zFgrTGw4E5126Z

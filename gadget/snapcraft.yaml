@@ -7,14 +7,14 @@ description: |
 base: core20
 type: gadget
 architectures:
-  - arm64
+  - armhf
 confinement: strict
 grade: stable
 
 parts:
   uboot:
-    plugin: make
-    source: u-boot/boot-assets
+    plugin: nil
+    source: u-boot/stage
     source-type: local
     override-build: |
       cp u-boot.bin $SNAPCRAFT_PART_INSTALL/
@@ -22,12 +22,4 @@ parts:
       touch $SNAPCRAFT_PART_INSTALL/uboot.conf
 
     build-packages:
-      - git
-      - bison
-      - flex
-      - libssl-dev 
-      - libpython2.7-dev
-      - build-essential
-      - bc
-      - gcc-arm-linux-gnueabi
       - tree
