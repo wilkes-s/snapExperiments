@@ -5,7 +5,8 @@ UBOOT_PATH :=$(PWD)/gadget/u-boot
 ARCH=arm
 
 clean-u-boot:
-	rm -r -f $(UBOOT_PATH)	
+	rm -r -f $(UBOOT_PATH)
+	rm -f a-sample-gadget.snap	
 
 u-boot-download: 
 	if [ ! -f $(UBOOT_PATH)/Makefile ] ; then \
@@ -28,6 +29,7 @@ u-boot: u-boot-download
 
 clean-kernel:
 	rm -r -f $(KERNEL_PATH)
+	rm -f a-sample-kernel.snap
 
 kernel-download:
 	if [ ! -f $(KERNEL_PATH)/Makefile ] ; then \
@@ -65,6 +67,9 @@ image: kernel-snap gadget-snap
 	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap
 
 clean: clean-kernel clean-u-boot
+	rm -f aSample.img
+	rm -f seed.manifest
+	rm -fr squashfs-root
 	
 .PHONY: gadget kernel
 	
