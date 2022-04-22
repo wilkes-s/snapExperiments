@@ -28,8 +28,8 @@ u-boot: u-boot-download
 	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
 
 clean-kernel:
-	rm -r -f $(KERNEL_PATH)
-	rm -f a-sample-kernel.snap
+	-rm -r $(KERNEL_PATH)
+	-rm a-sample-kernel.snap
 
 kernel-download:
 	if [ ! -f $(KERNEL_PATH)/Makefile ] ; then \
@@ -75,11 +75,11 @@ image: gadget-snap kernel-snap
 	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
 
 clean: clean-kernel clean-u-boot
-	rm -f aSample.img
-	rm -f seed.manifest
-	rm -fr squashfs-root
-	rm -f *.snap
-	rm -f model.model
+	-rm aSample.img
+	-rm seed.manifest
+	-rm -r squashfs-root
+	-rm *.snap
+	-rm model.model
 
 install:
 	sudo apt update && sudo apt -y upgrade 
@@ -89,7 +89,6 @@ install:
 	sudo snap install multipass
 	sudo snap install ubuntu-image --classic
 
-	
 .PHONY: gadget kernel
 	
 
