@@ -5,21 +5,25 @@ volumes:
     structure:
 
       - name: RAW
-        type: bare
+        filesystem: vfat
+        type: 0C
         size: 10484736
         offset: 1024
         content:
-          - image: u-boot.bin
+          - source: u-boot.bin
+            target: /
       
       - name: FAT
         role: system-seed
+        filesystem: vfat
         type: 0C
         size: 500M
         offset: 10M
 
       - name: EXT
         role: system-data
+        filesystem: ext4
         type: 83
         size: 2000M
-        offset: 600M
         filesystem-label: ubuntu-data
+        offset: 600M
