@@ -6,3 +6,4 @@ kernel-*/
 squashfs-root/
 *.img
 seed.manifest
+*.tar.xz

@@ -5,12 +5,12 @@
     "brand-id": "vgl665t7j686tEGIaH9waabNOO608CAX",
     "model": "ubuntu-core-18-imx6",
     "architecture": "armhf",
-    "timestamp": "2022-04-19T15:50:04+00:00",
+    "timestamp": "2022-04-21T14:58:04+00:00",
     "base": "core20",
     "grade": "dangerous",
     "snaps": [
         {
-            "name": "a-sample",
+            "name": "a-gadget",
             "type": "gadget"
         },
         {

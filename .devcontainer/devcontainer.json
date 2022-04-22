@@ -1,5 +1,5 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.231.2/containers/ubuntu
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.231.6/containers/ubuntu
 {
 	"name": "Ubuntu",
 	"build": {
@@ -8,12 +8,6 @@
 		// Use hirsute or bionic on local arm64/Apple Silicon.
 		"args": { "VARIANT": "focal" }
 	},
-    "containerEnv": {
-        "HTTP_PROXY": "host.docker.internal:3128",
-        "HTTPS_PROXY": "host.docker.internal:3128",
-        "http_proxy": "host.docker.internal:3128",
-        "https_proxy": "host.docker.internal:3128",
-    },
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
@@ -26,12 +20,8 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "export HTTP_PROXY=host.docker.internal:3128 && export HTTPS_PROXY=$HTTP_PROXY && export http_proxy=$HTTP_PROXY && export https_proxy=$HTTP_PROXY && sudo apt-get update && export DEBIAN_FRONTEND=noninteractive && sudo apt-get -y install qemu-system-arm gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi build-essential bison flex libssl-dev tree bc ",
+	// "postCreateCommand": "uname -a",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "vscode",
-	"features": {
-		"git": "latest",
-		"python": "latest"
-	}
+	"remoteUser": "vscode"
 }

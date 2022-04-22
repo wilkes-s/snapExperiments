@@ -24,7 +24,7 @@ u-boot: u-boot-download
 	rm -rf $(UBOOT_PATH)/stage
 	mkdir $(UBOOT_PATH)/stage
 	cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/stage/
+	cp $(UBOOT_PATH)/u-boot $(UBOOT_PATH)/stage/
 	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
 
 clean-kernel:
@@ -57,19 +57,38 @@ kernel: kernel-download
 gadget-snap: u-boot
 	cd gadget && snapcraft && \
 	mv *.snap $(PWD)/a-sample-gadget.snap
+	multipass stop --all
 
 kernel-snap: kernel
-	cd kernel && snapcraft --debug && \
+	cd kernel && snapcraft && \
 	mv *.snap $(PWD)/a-sample-kernel.snap
+	multipass stop --all
 
-image: kernel-snap gadget-snap
-	cat model.json | snap sign -k snapkey3 > model.model
-	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap
+image: gadget-snap kernel-snap 
+	if [ ! -f snapd_15540.snap ] ; then \
+		UBUNTU_STORE_ARCH=armhf snap download snapd && rm snapd_15540.assert ; \
+	fi
+	if [ ! -f core20_1409.snap ] ; then \
+		UBUNTU_STORE_ARCH=armhf snap download core20 && rm core20_1409.assert ; \
+	fi
+	cat model.json | snap sign -k snapkey4 > model.model 
+	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
 
 clean: clean-kernel clean-u-boot
 	rm -f aSample.img
 	rm -f seed.manifest
 	rm -fr squashfs-root
+	rm -f *.snap
+	rm -f model.model
+
+install:
+	sudo apt update && sudo apt -y upgrade 
+	sudo apt -y install build-essential gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi 
+	sudo apt -y install bison flex libssl-dev tree bc lzop
+	sudo apt -y install snapcraft
+	sudo snap install multipass
+	sudo snap install ubuntu-image --classic
+
 	
 .PHONY: gadget kernel
 	
