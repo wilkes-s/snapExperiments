@@ -4,9 +4,11 @@ KERNEL_PATH :=$(PWD)/kernel/kernel-5.17
 UBOOT_PATH :=$(PWD)/gadget/u-boot
 ARCH=arm
 
+all: image
+
 clean-u-boot:
-	rm -r -f $(UBOOT_PATH)
-	rm -f a-sample-gadget.snap	
+	-rm -r $(UBOOT_PATH)
+	-rm a-sample-gadget.snap	
 
 u-boot-download: 
 	if [ ! -f $(UBOOT_PATH)/Makefile ] ; then \
@@ -16,16 +18,14 @@ u-boot-download:
 		
 u-boot: u-boot-download
 	cd $(UBOOT_PATH) && \
-	CROSS_COMPILE=$(ARCH)-linux-gnueabihf- && \
-	export CROSS_COMPILE && \
-	make mx6ull_14x14_evk_defconfig && \
-    make -j8
+	CROSS_COMPILE=$(ARCH)-linux-gnueabihf- && export CROSS_COMPILE && \
+	make mx6ull_14x14_evk_defconfig && make -j8
 
-	rm -rf $(UBOOT_PATH)/stage
-	mkdir $(UBOOT_PATH)/stage
-	cp -r $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/u-boot $(UBOOT_PATH)/stage/
-	cp $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
+	# - rm -r $(UBOOT_PATH)/stage
+	- mkdir $(UBOOT_PATH)/stage
+	cp -ru $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
+	cp -u $(UBOOT_PATH)/u-boot $(UBOOT_PATH)/stage/
+	cp -u $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
 
 clean-kernel:
 	-rm -r $(KERNEL_PATH)
@@ -40,18 +40,17 @@ kernel-download:
 		cp $(PWD)/devicetree/*.dts $(KERNEL_PATH)/arch/$(ARCH)/boot/dts/ && \
 		cd $(KERNEL_PATH)/ && patch -p1 < $(PWD)/devicetree/dts.patch ; \
 	fi
-		# cp $(PWD)/devicetree/$(DTS).patch $(KERNEL_PATH)/ && \
 
 kernel: kernel-download	
-	cp $(KERNEL_PATH)/arch/$(ARCH)/configs/imx_v6_v7_defconfig $(KERNEL_PATH)/.config
+	cp -u $(KERNEL_PATH)/arch/$(ARCH)/configs/imx_v6_v7_defconfig $(KERNEL_PATH)/.config
 	cd $(KERNEL_PATH) ;	make ARCH=$(ARCH) CROSS_COMPILE=/usr/bin/$(ARCH)-linux-gnueabi- olddefconfig
 	cd $(KERNEL_PATH) ;	make ARCH=$(ARCH) CROSS_COMPILE=/usr/bin/$(ARCH)-linux-gnueabi- -j8
 
-	rm -rf $(KERNEL_PATH)/stage
-	mkdir $(KERNEL_PATH)/stage
-	mkdir $(KERNEL_PATH)/stage/dtb
-	cp $(KERNEL_PATH)/arch/$(ARCH)/boot/dts/smarc_lcd.dtb $(KERNEL_PATH)/stage/dtb/
-	cp $(KERNEL_PATH)/arch/$(ARCH)/boot/zImage $(KERNEL_PATH)/stage/
+	# -rm -r $(KERNEL_PATH)/stage
+	- mkdir $(KERNEL_PATH)/stage
+	- mkdir $(KERNEL_PATH)/stage/dtb
+	cp -u $(KERNEL_PATH)/arch/$(ARCH)/boot/dts/smarc_lcd.dtb $(KERNEL_PATH)/stage/dtb/
+	cp -u $(KERNEL_PATH)/arch/$(ARCH)/boot/zImage $(KERNEL_PATH)/stage/
 
 
 gadget-snap: u-boot
@@ -72,7 +71,7 @@ image: gadget-snap kernel-snap
 		UBUNTU_STORE_ARCH=armhf snap download core20 && rm core20_1409.assert ; \
 	fi
 	cat model.json | snap sign -k snapkey4 > model.model 
-	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
+	ubuntu-image snap model.model --validation=ignore --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
 
 clean: clean-kernel clean-u-boot
 	-rm aSample.img
