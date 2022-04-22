@@ -4,7 +4,9 @@ KERNEL_PATH :=$(PWD)/kernel/kernel-5.17
 UBOOT_PATH :=$(PWD)/gadget/u-boot
 ARCH=arm
 
-all: image
+all: gadget-snap kernel-snap image
+
+partition: gadget-snap image
 
 clean-u-boot:
 	-rm -r $(UBOOT_PATH)
@@ -17,14 +19,14 @@ u-boot-download:
 	fi
 		
 u-boot: u-boot-download
-	cd $(UBOOT_PATH) && \
-	CROSS_COMPILE=$(ARCH)-linux-gnueabihf- && export CROSS_COMPILE && \
-	make mx6ull_14x14_evk_defconfig && make -j8
+	cd $(UBOOT_PATH) && make CROSS_COMPILE=$(ARCH)-linux-gnueabihf- mx6ull_14x14_evk_defconfig 
+	cd $(UBOOT_PATH) && make CROSS_COMPILE=$(ARCH)-linux-gnueabihf- -j8
 
 	# - rm -r $(UBOOT_PATH)/stage
 	- mkdir $(UBOOT_PATH)/stage
 	cp -ru $(UBOOT_PATH)/tools $(UBOOT_PATH)/stage/
 	cp -u $(UBOOT_PATH)/u-boot $(UBOOT_PATH)/stage/
+	cp -u $(UBOOT_PATH)/u-boot.bin $(UBOOT_PATH)/stage/
 	cp -u $(UBOOT_PATH)/uboot.env.in $(UBOOT_PATH)/stage/
 
 clean-kernel:
@@ -63,7 +65,7 @@ kernel-snap: kernel
 	mv *.snap $(PWD)/a-sample-kernel.snap
 	multipass stop --all
 
-image: gadget-snap kernel-snap 
+image: 
 	if [ ! -f snapd_15540.snap ] ; then \
 		UBUNTU_STORE_ARCH=armhf snap download snapd && rm snapd_15540.assert ; \
 	fi
@@ -71,7 +73,7 @@ image: gadget-snap kernel-snap
 		UBUNTU_STORE_ARCH=armhf snap download core20 && rm core20_1409.assert ; \
 	fi
 	cat model.json | snap sign -k snapkey4 > model.model 
-	ubuntu-image snap model.model --validation=ignore --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
+	ubuntu-image snap model.model --snap ./a-sample-gadget.snap --snap ./a-sample-kernel.snap --snap ./core20_1409.snap --snap ./snapd_15540.snap
 
 clean: clean-kernel clean-u-boot
 	-rm aSample.img

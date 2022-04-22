@@ -1,39 +1,25 @@
-device-tree: smarc_lcd
-device-tree-origin: kernel
 volumes:
   aSample:
     bootloader: u-boot
     schema: mbr
     structure:
 
-      - name: uboot
+      - name: RAW
         type: bare
-        size: 10M
+        size: 10484736
         offset: 1024
         content:
-          - image: u-boot
-
-      - name: recovery
+          - image: u-boot.bin
+      
+      - name: FAT
         role: system-seed
         type: 0C
-        size: 1000M
-      
-      - name: ubuntu-kernel
-        role: system-boot
-        filesystem: vfat
-        type: 0C
         size: 500M
-        # offset: 10M
-        # content:
-        #   - source: $KERNEL:zImage
-        #     target: /
-        #   - source: $KERNEL:dtb
-        #     target: /dtb
+        offset: 10M
 
-      - name: ubuntu-data
+      - name: EXT
         role: system-data
-        filesystem: ext4
-        type: 83,0FC63DAF-8483-4772-8E79-3D69D8477DE4
+        type: 83
         size: 2000M
+        offset: 600M
         filesystem-label: ubuntu-data
-        # offset: 600M
