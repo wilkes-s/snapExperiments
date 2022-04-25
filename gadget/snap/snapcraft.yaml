@@ -12,14 +12,19 @@ confinement: strict
 grade: stable
 
 parts:
-  uboot:
+  boot:
     plugin: nil
-    source: u-boot/stage
+    source: stage
     source-type: local
     override-build: |
       cp u-boot.bin $SNAPCRAFT_PART_INSTALL/
       tools/mkenvimage -r -s 131072 -o $SNAPCRAFT_PART_INSTALL/boot.sel ./uboot.env.in
       touch $SNAPCRAFT_PART_INSTALL/uboot.conf
+
+
+      cp zImage $SNAPCRAFT_PART_INSTALL/
+      cp -r dtb/* $SNAPCRAFT_PART_INSTALL/
+      cp initrd.img $SNAPCRAFT_PART_INSTALL/
 
     build-packages:
       - tree

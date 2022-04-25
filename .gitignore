@@ -4,7 +4,8 @@ linux/
 kernel-*/
 *.snap
 squashfs-root/
-*.img
+aSample.img
 seed.manifest
 *.tar.xz
 *.model
+stage/

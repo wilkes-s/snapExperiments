@@ -16,7 +16,7 @@ architectures:
 parts:
   kernel:
     plugin: nil
-    source: kernel-5.17/stage
+    source: stage
     source-type: local
     override-build: |
       cp zImage $SNAPCRAFT_PART_INSTALL/zImage

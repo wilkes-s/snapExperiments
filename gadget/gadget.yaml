@@ -4,26 +4,30 @@ volumes:
     schema: mbr
     structure:
 
-      - name: RAW
-        filesystem: vfat
-        type: 0C
-        size: 10484736
-        offset: 1024
-        content:
-          - source: u-boot.bin
-            target: /
       
-      - name: FAT
+      - name: boot        
+        filesystem: ext4
+        type: 83
+        size: 300M
+        content:
+          - source: /
+            target: boot/
+
+      - name: root
         role: system-seed
-        filesystem: vfat
-        type: 0C
+        filesystem: ext4
+        type: 83
         size: 500M
-        offset: 10M
+        content:
+          - source: /
+            target: boot/
+
+        # role: system-boot
 
       - name: EXT
         role: system-data
         filesystem: ext4
         type: 83
-        size: 2000M
+        size: 500M
         filesystem-label: ubuntu-data
-        offset: 600M
+        # offset: 600M
